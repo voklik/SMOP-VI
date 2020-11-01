@@ -1,0 +1,25 @@
+<component name="libraryTable">
+  <library name="Framework">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-contrib-2.98.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-core-2.98.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-imgrec-2.98.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-ocr-2.98.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/visrec-api-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/slf4j-api-1.7.5.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/ajt-2.9.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/android-1.5_r4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/slf4j-nop-1.7.6.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/visrec-api-1.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-contrib-2.98-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-core-2.98-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-imgrec-2.98-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/neuroph-ocr-2.98-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/framework/Framework/libs/visrec-api-1.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
