@@ -5,6 +5,8 @@ import ModeSveta.Surovina;
 import ModeSveta.Svet;
 
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -14,14 +16,15 @@ import java.util.Scanner;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 
 public class StarterI {
     public static DemoPaint demo;
     public static JFrame window = null;
     public static Svet svet;
+    public static boolean pauza=false;
+    public static Timer timer;
 
     public static void main(String[] args) {
         Scanner console = new Scanner(System.in);
@@ -164,13 +167,21 @@ catch (Exception e){
         window.setVisible(true);
         demo = new DemoPaint();
         demo.setSvet(svet);
-        demo.setSirka(window.getWidth());
-        demo.setVyska(window.getHeight());
+        demo.setSirka(window.getWidth()*4/5);
+        demo.setVyska(window.getHeight()*4/5);
         // demo.setBackground(Color.GRAY);
         // window.setBackground(Color.GRAY);
         window.getContentPane().setBackground(Color.GRAY);
         window.getContentPane().add(demo);
-        Timer timer = new Timer("Timer");
+        JButton button = new JButton("od/pauza");
+        button.setBackground(Color.green);
+          button.setSize(20,20);
+        button.setMaximumSize(new Dimension(window.getWidth()*4/5,window.getHeight()*4/5));
+      //  window.add(demo);
+        window.add(button, BorderLayout.SOUTH);
+        window.add(demo,BorderLayout.CENTER);
+       // window.add(demo);
+         timer = new Timer("Timer");
         TimerTask task = new TimerTask() {
             public void run() {
 
@@ -192,14 +203,63 @@ catch (Exception e){
                 }
                 window.setTitle((dtf.format(now)));
                 demo.repaint();
-                //window.revalidate();
+
             }
         };
 
 
-        long delay = 1000;
+        long delay = 3000;
         // timer.schedule(task, delay);
-        timer.scheduleAtFixedRate(task, delay, 1000);
+        timer.scheduleAtFixedRate(task, delay, 3000);
+        button.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (pauza==false)
+                {button.setBackground(Color.red);
+                System.out.println("Pauza");
+                    try {
+                     timer.cancel();
+                     task.cancel();
+                    } catch (Exception t) {
+
+                    }
+                    pauza=true;
+                }
+                else
+                {  System.out.println("Odpauzovano");
+                    button.setBackground(Color.GREEN);
+                    timer = new Timer("Timer");
+                    TimerTask task = new TimerTask() {
+                        public void run() {
+
+
+                            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+                            LocalDateTime now = LocalDateTime.now();
+                            boolean zijeNekdo = svet.tikPostavy();
+                            if (zijeNekdo == false||svet.getTah()>100) {
+                                timer.cancel();
+                                svet.vyhodnoceniSimulace();
+                                ArrayList<Postava> seznam = svet.vyhodnoceniSimulace();
+                                for (Postava postava : seznam
+                                ) {
+
+                                    System.out.println(postava.vypisHodnoceni());
+
+                                }
+
+                            }
+                            window.setTitle((dtf.format(now)));
+                            demo.repaint();
+
+                        }
+                    };
+                    timer.scheduleAtFixedRate(task, delay, 3000);
+                    pauza=false;
+                }
+
+            }
+        });
     }
 
 
