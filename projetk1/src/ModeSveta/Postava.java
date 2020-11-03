@@ -158,7 +158,7 @@ public class Postava {
     }
 
     public void tik() {
-        //  tikvypis();
+          tikvypis();
 
         kontrolaHP();
         //plní se úkol pro vodu/jídlo ?
