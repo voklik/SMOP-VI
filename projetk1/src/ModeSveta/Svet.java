@@ -31,7 +31,7 @@ public class Svet {
             int x = ThreadLocalRandom.current().nextInt(0, pocetradku);
             int y = ThreadLocalRandom.current().nextInt(0, pocetsloupcu);
             if (svet[x][y].getObjekt().isPruchozi() == true) {
-                postavy.add(new Postava(this, ("Postava " + String.valueOf(i)), "orc.png", x, y, 50, 60, 60));
+                postavy.add(new Postava(this, ("Postava " + String.valueOf(i)), "orc.png", x, y, 60, 60, 50));
             }
         }
 
@@ -136,7 +136,7 @@ public class Svet {
             radiusMax = maxRadiusY;
         else
             radiusMax = maxRadiusX;
-        Blok nejblizsi = new Blok(radek + 10000, sloupec + 10000);
+        Blok nejblizsi = new Blok(radek + 1000, sloupec + 1000);
 
         for (int radius = 0; radius < radiusMax; radius++) {
             //    System.out.println("Hledám v radiu " + radius);
@@ -204,7 +204,7 @@ public class Svet {
                 }
             }
 
-            if (nejblizsi.getRadek() != 100 + radek && nejblizsi.getSloupec() != 100 + sloupec)
+            if (nejblizsi.getRadek() != 1000 + radek && nejblizsi.getSloupec() != 1000 + sloupec)
                 return nejblizsi;
 
 
@@ -266,7 +266,7 @@ public class Svet {
 
     private void hledejCest2(SeznamCinnosti seznamCinnosti, int postavaradek, int postavasloupec) {
 
-        Blok nejblizsi = new Blok(getRadek() + 100, sloupec + 100);
+        Blok nejblizsi = new Blok(getRadek() + 1000, sloupec + 1000);
 
         nejblizsi.setCislo(radek * sloupec * 2);
         for (int radius = 1; radius < getRadek(); radius++) {

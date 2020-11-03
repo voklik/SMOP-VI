@@ -63,7 +63,7 @@ public class Postava {
         potreby.add(hlad);
         potreby.add(zizen);
         prerovnaniPotreb();
-
+hledatPraci();
         this.obrazek = obrazek;
         this.nazev = nazev;
     }
@@ -292,7 +292,7 @@ public class Postava {
         //   int x = ThreadLocalRandom.current().nextInt(0, svet.getRadek());
         //   int y = ThreadLocalRandom.current().nextInt(0, svet.getSloupec());
         if (radek == 10 && sloupec == 15)
-            seznamCinnosti = (svet.hledaniCesty(10, 10, radek, sloupec));
+            seznamCinnosti = (svet.hledaniCesty(10, 5, radek, sloupec));
         else
             seznamCinnosti = (svet.hledaniCesty(10, 15, radek, sloupec));
         inventar.setHledanaSurovinaNic();
@@ -446,7 +446,7 @@ public class Postava {
         else
             nejblizsi = svet.hledaniBloku(hledany, radek, sloupec);
 
-        //   System.out.println("\n\n\n-----Cíl je na " + nejblizsi.getRadek() + " / " + nejblizsi.getSloupec() + "  a jsem na pozici " + radek + "/" + sloupec);
+           System.out.println("\n\n\n-----Cíl je na " + nejblizsi.getRadek() + " / " + nejblizsi.getSloupec() + "  a jsem na pozici " + radek + "/" + sloupec);
         seznamCinnosti = svet.hledaniCesty(nejblizsi.getRadek(), nejblizsi.getSloupec(), radek, sloupec);
 
         for (Cinnost c : seznamCinnosti.getSeznamCinnosti()) {
