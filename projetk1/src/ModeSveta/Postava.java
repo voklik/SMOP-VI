@@ -21,8 +21,8 @@ public class Postava {
     private int sloupec;
     private Svet svet;//slouží pro vyhledávání objektů
     private String obrazek = "";
-    private int hp=100;
-    private float hodnoceni=0;
+    private int hp = 100;
+    private float hodnoceni = 0;
 
 
     public Postava(Svet s, String nazev, int _radek, int sloupec) {
@@ -36,7 +36,7 @@ public class Postava {
         inventar = new Inventar(this);
         hlad = new Hlad(60, "Jidlo");
         zizen = new Zizen(60, "Voda");
-        energie = new Energie(60,hlad, zizen);
+        energie = new Energie(60, hlad, zizen);
         this.svet = s;
 
         this.radek = _radek;
@@ -44,7 +44,7 @@ public class Postava {
         this.nazev = nazev;
     }
 
-    public Postava(Svet s, String nazev, String obrazek, int _x, int _y, int horniHraniceHlad, int horniHraniceZizen,int horniHraniceEnergie) {
+    public Postava(Svet s, String nazev, String obrazek, int _x, int _y, int horniHraniceHlad, int horniHraniceZizen, int horniHraniceEnergie) {
 //Protatím se vytvoří jen 3 úrovně cílů
         potreby = new ArrayList<Potreba>();
         this.radek = _x;
@@ -58,7 +58,7 @@ public class Postava {
         inventar = new Inventar(this);
         hlad = new Hlad(horniHraniceHlad, "Jidlo");
         zizen = new Zizen(horniHraniceZizen, "Voda");
-        energie = new Energie(horniHraniceEnergie,hlad, zizen);
+        energie = new Energie(horniHraniceEnergie, hlad, zizen);
         potreby.add(energie);
         potreby.add(hlad);
         potreby.add(zizen);
@@ -73,23 +73,19 @@ public class Postava {
     }
 
 
-    public void vyhodnoceni()
-    {
-if(hp<=0)
-{
-    hodnoceni=0.0f;
-}
-else
-{
-    hodnoceni=1.0f;
-    for (SeznamCilu uroven:seznamUrovniCilu
-         ) {
-        for (Cil c: uroven.getSeznamSplnenychCilu()
-             ) {
-            hodnoceni=hodnoceni+(uroven.getHodnoceniZaSpleni());
+    public void vyhodnoceni() {
+        if (hp <= 0) {
+            hodnoceni = 0.0f;
+        } else {
+            hodnoceni = 1.0f;
+            for (SeznamCilu uroven : seznamUrovniCilu
+            ) {
+                for (Cil c : uroven.getSeznamSplnenychCilu()
+                ) {
+                    hodnoceni = hodnoceni + (uroven.getHodnoceniZaSpleni());
+                }
+            }
         }
-    }
-}
     }
 
     public float getHodnoceni() {
@@ -117,7 +113,7 @@ else
     }
 
     private void provedeniCinnosti() {
-        if(!seznamCinnosti.getSeznamCinnosti().isEmpty()) {
+        if (!seznamCinnosti.getSeznamCinnosti().isEmpty()) {
             Cinnost prvni = seznamCinnosti.DostatPrvni();
             if (prvni.getAkce().equals("pohyb")) {
                 radek = prvni.getRadek();
@@ -148,21 +144,21 @@ else
                 inventar.setHledanaSurovinaNic();
                 seznamCinnosti.resetSeznamu();
             }
+        } else {
+            najdiSiCinnost();
         }
-        else
-        {najdiSiCinnost();
-        }
-        }
-    public void kontrolaHP()
-    {
+    }
+
+    public void kontrolaHP() {
         for (Potreba p : potreby) {
-        if(p.getStav()<=0)
-        hp--;
+            if (p.getStav() <= 0)
+                hp--;
 
         }
     }
+
     public void tik() {
-      //  tikvypis();
+        //  tikvypis();
 
         kontrolaHP();
         //plní se úkol pro vodu/jídlo ?
@@ -182,18 +178,18 @@ else
             if (potreba != null) {
 
                 if (potreba == energie) {
-                //    System.out.println("Odpočívám");
+                    //    System.out.println("Odpočívám");
                     potreba.doplnStav(new Surovina("", 0));
                 } else {
                     Surovina potrebnaSurovina = inventar.getSurovinu(potreba.getSurovinaKDoplneni());
 
                     if (potrebnaSurovina.getPocet() > 0) {
-                    //    System.out.println("spotřebovávám surovinu " + potrebnaSurovina.getNazev());
+                        //    System.out.println("spotřebovávám surovinu " + potrebnaSurovina.getNazev());
                         potreba.doplnStav(potrebnaSurovina);
                     } else {
 
                         ArrayList<String> objekt = StatickaPravidla.hledatSurovinu(potrebnaSurovina.getNazev());
-                   //     System.out.println(" Mám potřebu" + potreba.getNazev() + " a budu hledat " + objekt.get(0));
+                        //     System.out.println(" Mám potřebu" + potreba.getNazev() + " a budu hledat " + objekt.get(0));
                         seznamCinnosti.resetSeznamu();
                         inventar.setHledanáSurovina(potrebnaSurovina);
                         hledani(objekt.get(0));
@@ -276,14 +272,14 @@ else
         if (surovina == null && pocetZbyvasplnit == 0) {
             bezNaProchazku();
         } else {
-            try{
-            ArrayList<String> objekt = StatickaPravidla.hledatSurovinu(surovina.getNazev());
-         //   System.out.println("Hledám surovinu " + surovina.getNazev() + " budu hledat v objektu" + objekt.get(0));
-            seznamCinnosti.resetSeznamu();
-            inventar.setHledanáSurovina(surovina);
-            hledani(objekt.get(0));
-            provedeniCinnosti();}catch (Exception e)
-            {
+            try {
+                ArrayList<String> objekt = StatickaPravidla.hledatSurovinu(surovina.getNazev());
+                //   System.out.println("Hledám surovinu " + surovina.getNazev() + " budu hledat v objektu" + objekt.get(0));
+                seznamCinnosti.resetSeznamu();
+                inventar.setHledanáSurovina(surovina);
+                hledani(objekt.get(0));
+                provedeniCinnosti();
+            } catch (Exception e) {
 
             }
         }
@@ -292,7 +288,7 @@ else
     }
 
     private void bezNaProchazku() {
-    //    System.out.println("jdu doprostřed mapy");
+        //    System.out.println("jdu doprostřed mapy");
         //   int x = ThreadLocalRandom.current().nextInt(0, svet.getRadek());
         //   int y = ThreadLocalRandom.current().nextInt(0, svet.getSloupec());
         if (radek == 10 && sloupec == 15)
@@ -332,73 +328,6 @@ else
 
     }
 
-    private void jsouPotrebyvPoradku() {
-        Potreba potreba = null;
-
-        try {
-            //zjistíme jestli něco je OPRAVDU nutné řešit
-            for (Potreba p : potreby
-            ) {
-
-
-                if (p.getStav() < p.getDolniHranice()) {
-                    potreba = p;
-                    break;
-                }
-
-            }
-            //nic nutného není potřeba řešit, proto budeme hledat něco, jestli je potřeba řešit, i když to není akutní.
-            if (potreba == null) {
-                for (Potreba p : potreby
-                ) {
-                    if (p.getStav() < p.getDolniHranice()) {
-                        potreba = p;
-                        break;
-                    }
-                }
-
-
-            }
-            //teď už víme, že opravdu nic postava nemusí řešit a může plnit cíle.
-            if (potreba == null) {
-
-
-            }
-            //Tak se našla nějaká potřeba, co je potřeba řešit
-            else {
-                if (inventar.getHledanáSurovina().getNazev().equals("Voda") || inventar.getHledanáSurovina().getNazev().equals("Jidlo")) {
-                    return;
-                }
-                seznamCinnosti.resetSeznamu();
-            //    System.out.println("Mažu si starý seznam");
-                if (potreba == energie) {
-            //        System.out.println("Odpočívám");
-                    potreba.doplnStav(new Surovina("", 0));
-                } else {
-                    String surovinaText = potreba.getSurovinaKDoplneni();
-                    Surovina surovina = inventar.getSurovinu(surovinaText);
-                    inventar.setHledanáSurovina(surovina);
-                    if (surovina != null) {
-                        if (surovina.getPocet() > 0) {
-
-                            potreba.doplnStav(surovina);
-
-                        } else {
-
-                            ArrayList<String> objekt = StatickaPravidla.hledatSurovinu(surovinaText);
-                     //       System.out.println(" Mám potřebu" + potreba.getNazev() + " a budu hledat " + objekt.get(0));
-
-                            hledani(objekt.get(0));
-
-                        }
-                    }
-                }
-            }
-        } catch (Exception e) {
-            System.out.println(e.getCause());
-        }
-
-    }
 
     private void najdiSiCinnost() {
         Potreba potreba = null;
@@ -429,7 +358,7 @@ else
             }
             //teď už víme, že opravdu nic postava nemusí řešit a může plnit cíle.
             if (potreba == null) {
-          //      System.out.println("jdu náhodně");
+                //      System.out.println("jdu náhodně");
                 int x = ThreadLocalRandom.current().nextInt(0, svet.getRadek());
                 int y = ThreadLocalRandom.current().nextInt(0, svet.getSloupec());
 
@@ -442,9 +371,9 @@ else
                 if (inventar.getHledanáSurovina().getNazev().equals("Voda") || inventar.getHledanáSurovina().getNazev().equals("Jidlo"))
                     return;
                 seznamCinnosti.resetSeznamu();
-          //      System.out.println("Mažu si starý seznam");
+                //      System.out.println("Mažu si starý seznam");
                 if (potreba == energie) {
-             //       System.out.println("Odpočívám");
+                    //       System.out.println("Odpočívám");
                     potreba.doplnStav(new Surovina("", 0));
                 } else {
                     String surovinaText = potreba.getSurovinaKDoplneni();
@@ -456,7 +385,7 @@ else
                         } else {
 
                             ArrayList<String> objekt = StatickaPravidla.hledatSurovinu(surovinaText);
-                        //    System.out.println(" Mám potřebu" + potreba.getNazev() + " a budu hledat" + objekt.get(0));
+                            //    System.out.println(" Mám potřebu" + potreba.getNazev() + " a budu hledat" + objekt.get(0));
 
                             hledani(objekt.get(0));
 
@@ -473,7 +402,7 @@ else
 
     private void tikvypis() {
         System.out.println("\n\n  TIK  " + svet.getTah() + "  -------------");
-        System.out.println("POSTAVA :" + nazev + "  radek:" + radek + " / sloupec:" + sloupec+ " HP: "+hp);
+        System.out.println("POSTAVA :" + nazev + "  radek:" + radek + " / sloupec:" + sloupec + " HP: " + hp);
         System.out.println("\nPlán\n");
         for (Cinnost c : seznamCinnosti.getSeznamCinnosti()) {
             System.out.println(c.getAkce() + "  na bloku " + c.getSloupec() + "/" + c.getRadek());
@@ -508,26 +437,6 @@ else
     }
 
 
-    public void kontrolaUrovniCilu() {
-        for (SeznamCilu uroven : seznamUrovniCilu) {
-            try {
-                uroven.kontrolaZbyvajicichCilu();
-            } catch (Exception e) {
-            }
-
-        }
-    }
-
-    public void kontrolaPotreb() {
-        for (Potreba p : potreby) {
-            try {
-                p.snizPotrebuTik();
-            } catch (Exception e) {
-            }
-
-        }
-    }
-
     public void hledani(String hledany) {
         // System.out.println("\n\n\n-----Hledam " + hledany + " a jsem na pozici radek:" + radek + " / sloupec:" + sloupec);
 
@@ -541,48 +450,11 @@ else
         seznamCinnosti = svet.hledaniCesty(nejblizsi.getRadek(), nejblizsi.getSloupec(), radek, sloupec);
 
         for (Cinnost c : seznamCinnosti.getSeznamCinnosti()) {
-       //     System.out.println(c.getAkce() + " " + c.getRadek() + "/" + c.getSloupec());
+            //     System.out.println(c.getAkce() + " " + c.getRadek() + "/" + c.getSloupec());
         }
 
     }
 
-    public void vypsaniPotreb() {
-        System.out.println("\n\n\n-------------------------------");
-        for (Potreba p : potreby) {
-
-            System.out.println(p.getNazev() + "  stav:  " + p.getStav());
-
-        }
-        System.out.println("\n\n\n-------------------------------");
-    }
-
-    public void vypsaniInventare() {
-        System.out.println("\n\n\n-------------------------------");
-        for (Surovina s : inventar.getSeznamSurovin()) {
-
-            System.out.println(s.getNazev() + "   v počtu:  " + s.getPocet());
-
-        }
-        System.out.println("\n\n\n-------------------------------");
-    }
-
-    public void vypsaniCilu() {
-        System.out.println("\n\n\n-------------------------------");
-        int i = 0;
-        for (SeznamCilu uroven : seznamUrovniCilu) {
-            System.out.println("Aktualni stav urovne " + ++i + " a zbývá splnit: " + uroven.getZbyvaSplnit());
-            for (Cil cil : uroven.getSeznamCiluKsplneni()) {
-                System.out.println(cil.getText());
-
-            }
-            System.out.println("---");
-            for (Cil cil : uroven.getSeznamSplnenychCilu()) {
-
-                System.out.println(cil.getText());
-
-            }
-        }
-    }
 
     public String getObrazek() {
         return obrazek;
@@ -629,9 +501,9 @@ else
     }
 
     public String vypisHodnoceni() {
-    String text ="Vypis Postava "+nazev +"|HP"+hp +" |Hodnoceni "+hodnoceni +" | hladhranice "+hlad.getHorniHranice()+" | zizen "+zizen.getHorniHranice()+" | energie  "+energie.getHorniHranice();
+        String text = "Vypis Postava " + nazev + "|HP" + hp + " |Hodnoceni " + hodnoceni + " | hladhranice " + hlad.getHorniHranice() + " | zizen " + zizen.getHorniHranice() + " | energie  " + energie.getHorniHranice();
 
-    return text;
+        return text;
 
     }
 }

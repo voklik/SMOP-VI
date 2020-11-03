@@ -49,7 +49,7 @@ public class Cil {
         ) {
             for (Surovina mamS : mam) {
                 if (mamS.getNazev().equals(s.getNazev())) {
-                  mamS.SnizPocet(s.getPocet());
+                    mamS.SnizPocet(s.getPocet());
                 }
             }
         }

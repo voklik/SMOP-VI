@@ -3,9 +3,10 @@ package ModeSveta;
 public class Blok {
 
     private Objekt objekt = null;
-    private  int radek;
-    private  int sloupec;
-    private int cislo=-1;//slouží pro hledání cesty pomocí seedu
+    private int radek;
+    private int sloupec;
+    private int cislo = -1;//slouží pro hledání cesty pomocí seedu
+
     public Blok(int radek, int sloupec) {
         this.radek = radek;
         this.sloupec = sloupec;

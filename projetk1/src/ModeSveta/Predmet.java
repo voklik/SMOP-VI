@@ -6,23 +6,25 @@ public class Predmet {
 
 
     private String nazev;
-    private boolean mamTO=false;
+    private boolean mamTO = false;
     private ArrayList<Surovina> seznamSurovinKVytvoreni;
-    private  int uroven=-3;
+    private int uroven = -3;
 
-//konstruktor pro statická pravidla
-    public Predmet(String nazev,int uroven,ArrayList<Surovina>seznamSurovinKVytvoreni) {
+    //konstruktor pro statická pravidla
+    public Predmet(String nazev, int uroven, ArrayList<Surovina> seznamSurovinKVytvoreni) {
         this.nazev = nazev;
-        this.seznamSurovinKVytvoreni=seznamSurovinKVytvoreni;
-        this.uroven=uroven;
+        this.seznamSurovinKVytvoreni = seznamSurovinKVytvoreni;
+        this.uroven = uroven;
 
-           }
-           //konstruktor pro postavy
-    public Predmet(String nazev,Postava p,int uroven,ArrayList<Surovina>seznamSurovinKVytvoreni) {
-        this.nazev = nazev;
-        this.seznamSurovinKVytvoreni=seznamSurovinKVytvoreni;
-        p.getSeznamUrovniCilu().get(uroven-1).addCil(new Cil(this));
     }
+
+    //konstruktor pro postavy
+    public Predmet(String nazev, Postava p, int uroven, ArrayList<Surovina> seznamSurovinKVytvoreni) {
+        this.nazev = nazev;
+        this.seznamSurovinKVytvoreni = seznamSurovinKVytvoreni;
+        p.getSeznamUrovniCilu().get(uroven - 1).addCil(new Cil(this));
+    }
+
     public String getNazev() {
         return nazev;
     }

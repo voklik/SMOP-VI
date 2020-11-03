@@ -5,51 +5,45 @@ import java.util.ArrayList;
 public class SeznamCinnosti {
 
     private ArrayList<Cinnost> seznamCinnosti;
-    public SeznamCinnosti()
-    {
-        seznamCinnosti=new ArrayList<Cinnost>();
+
+    public SeznamCinnosti() {
+        seznamCinnosti = new ArrayList<Cinnost>();
     }
 
 
-    public boolean cilSeznamuJeValidniStale(Svet svet)
-    {
-        if(seznamCinnosti.isEmpty())
-        return false;
-        Cinnost posledni = seznamCinnosti.get(seznamCinnosti.size()-1);
-
-        if(svet.getSvet()[posledni.getSloupec()][posledni.getRadek()].getObjekt()==null)
+    public boolean cilSeznamuJeValidniStale(Svet svet) {
+        if (seznamCinnosti.isEmpty())
             return false;
-       else
-           return true;
+        Cinnost posledni = seznamCinnosti.get(seznamCinnosti.size() - 1);
+
+        if (svet.getSvet()[posledni.getSloupec()][posledni.getRadek()].getObjekt() == null)
+            return false;
+        else
+            return true;
 
     }
 
-    public void resetSeznamu()
-    {
+    public void resetSeznamu() {
         seznamCinnosti.clear();
     }
-    public void pridatBezNa(int x, int y)
-    {
-seznamCinnosti.add(new Cinnost(x,y,"pohyb"));
+
+    public void pridatBezNa(int x, int y) {
+        seznamCinnosti.add(new Cinnost(x, y, "pohyb"));
     }
-    public void pridatProvedCinnostNa(int x, int y)
-    {
-        seznamCinnosti.add(new Cinnost(x,y,"cinnost"));
+
+    public void pridatProvedCinnostNa(int x, int y) {
+        seznamCinnosti.add(new Cinnost(x, y, "cinnost"));
     }
-    public Cinnost DostatPrvni()
-    {
-        if(!seznamCinnosti.isEmpty())
-        {
-        return  seznamCinnosti.get(0);
-        }
-        else
+
+    public Cinnost DostatPrvni() {
+        if (!seznamCinnosti.isEmpty()) {
+            return seznamCinnosti.get(0);
+        } else
             return null;
     }
 
-    public void OdebratPrvni()
-    {
-        if(!seznamCinnosti.isEmpty())
-        {
+    public void OdebratPrvni() {
+        if (!seznamCinnosti.isEmpty()) {
             seznamCinnosti.remove(0);
         }
     }
@@ -61,7 +55,6 @@ seznamCinnosti.add(new Cinnost(x,y,"pohyb"));
     public void setSeznamCinnosti(ArrayList<Cinnost> seznamCinnosti) {
         this.seznamCinnosti = seznamCinnosti;
     }
-
 
 
 }

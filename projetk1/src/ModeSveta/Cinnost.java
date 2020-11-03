@@ -13,7 +13,6 @@ public class Cinnost {
     }
 
 
-
     public int getRadek() {
         return radek;
     }

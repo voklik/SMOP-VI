@@ -10,16 +10,13 @@ import org.neuroph.core.NeuralNetwork;
 import org.neuroph.core.Neuron;
 import org.neuroph.core.data.DataSet;
 import org.neuroph.core.data.DataSetRow;
-import org.neuroph.core.learning.LearningRule;
 import org.neuroph.nnet.MultiLayerPerceptron;
-import org.neuroph.nnet.Perceptron;
-import org.neuroph.nnet.learning.BackPropagation;
 import org.neuroph.nnet.learning.LMS;
-import org.neuroph.util.ConnectionFactory;
+
 
 public class NeuronovaSit {
 
-    private static DataSet trainingSet, testSet, neznamoSet,allSet;
+    private static DataSet trainingSet, testSet, neznamoSet, allSet;
 
     public static void main(String args[]) {
 
@@ -54,55 +51,17 @@ public class NeuronovaSit {
         ((LMS) myPerceptron.getLearningRule()).setMaxError(0.001);//0-1
         ((LMS) myPerceptron.getLearningRule()).setLearningRate(0.7);//0-1
         ((LMS) myPerceptron.getLearningRule()).setMaxIterations(maxIterations);//0-1
-/*
-        NeuralNetwork myPerceptron = new NeuralNetwork();
-        myPerceptron.addLayer(0, inputLayer);
-        myPerceptron.addLayer(1, hiddenLayerOne);
-        ConnectionFactory.fullConnect(myPerceptron.getLayerAt(0), myPerceptron.getLayerAt(1));
-        myPerceptron.addLayer(2, hiddenLayerTwo);
-        ConnectionFactory.fullConnect(myPerceptron.getLayerAt(1), myPerceptron.getLayerAt(2));
-        myPerceptron.addLayer(3, outputLayer);
-        ConnectionFactory.fullConnect(myPerceptron.getLayerAt(2), myPerceptron.getLayerAt(3));
-        ConnectionFactory.fullConnect(myPerceptron.getLayerAt(0),
-        myPerceptron.getLayerAt(myPerceptron.getLayersCount()-1), false);
-        myPerceptron.setInputNeurons(inputLayer.getNeurons());
-        myPerceptron.setOutputNeurons(outputLayer.getNeurons());*/
-        // create perceptron neural network
-       // NeuralNetwork myPerceptron = new Perceptron(3, 1);
-       // NeuralNetwork myPerceptron=new NeuralNetwork();
-        // learn the training set
-       // BackPropagation backPropagation = new BackPropagation();
-       // backPropagation.setMaxIterations(1000);
+
         System.out.println("zacinam se ucit");
         myPerceptron.learn(trainingSet);
-      //  myPerceptron.learn(trainingSet);
-    //    myPerceptron.setLearningRule();
-        // test perceptron
-      //  System.out.println("Testing trained perceptron");
-     //   testNeuralNetwork(myPerceptron, testSet);
-        // save trained perceptron
-      //  myPerceptron.save("mySamplePerceptron.nnet");
-        // load saved neural network
-      //  NeuralNetwork loadedPerceptron = NeuralNetwork.load("mySamplePerceptron.nnet");
-        // test loaded neural network
 
         System.out.println("Testing loaded perceptron");
-     //   testNeuralNetwork(loadedPerceptron, allSet);
+        testNeuralNetwork(myPerceptron, allSet);
 
     }
 
 
-
-
     private static void nacteniDat() {
-        //  trainingSet.add(new DataSetRow(
-        //  new double[]{0, 0},
-        //  new double[]{0}));
-        //  trainingSet.add(new DataSetRow(new double[]{0, 1}, new double[]{0}));
-        //  trainingSet.add(new DataSetRow(new double[]{1, 0}, new double[]{0}));
-        //  trainingSet.add(new DataSetRow(new double[]{1, 1}, new double[]{1}));
-
-
         List<List<String>> records = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("../3600dataset.csv"))) {
             String line;
@@ -125,9 +84,9 @@ public class NeuronovaSit {
                 Double zizen = Double.parseDouble(radek.get(1));
                 Double energie = Double.parseDouble(radek.get(2));
                 Double hodnoceni = Double.parseDouble(radek.get(3));
-                hlad= hlad/100;
-                zizen=zizen/100;
-                energie=energie/100;
+                hlad = hlad / 100;
+                zizen = zizen / 100;
+                energie = energie / 100;
                 if (hodnoceni > 1)
                     hodnoceni = 1.0d;
                 if (x == 1 || x == 3 || x == 5) {
@@ -174,7 +133,7 @@ public class NeuronovaSit {
      * @param testSet   data set used for testing
      */
     public static void testNeuralNetwork(NeuralNetwork neuralNet, DataSet testSet) {
-        try{
+        try {
 
 
             FileWriter csvWriter = new FileWriter("vystup.csv");
@@ -187,39 +146,30 @@ public class NeuronovaSit {
             csvWriter.append("\n");
 
 
+            for (DataSetRow trainingElement : testSet.getRows()) {
+                neuralNet.setInput(trainingElement.getInput());
+                neuralNet.calculate();
+                double[] networkOutput = neuralNet.getOutput();
 
+                csvWriter.append(Arrays.toString((trainingElement.getInput())));
+                csvWriter.append(",");
+                csvWriter.append(Arrays.toString((trainingElement.getDesiredOutput())));
+                csvWriter.append(",");
+                csvWriter.append(Arrays.toString((networkOutput)));
 
-                for (DataSetRow trainingElement : testSet.getRows()) {
-                    neuralNet.setInput(trainingElement.getInput());
-                    neuralNet.calculate();
-                    double[] networkOutput = neuralNet.getOutput();
-
-                    csvWriter.append(Arrays.toString((trainingElement.getInput())));
-                    csvWriter.append(",");
-                    csvWriter.append(Arrays.toString((trainingElement.getDesiredOutput())));
-                    csvWriter.append(",");
-                    csvWriter.append(Arrays.toString((networkOutput)));
-
-                    csvWriter.append("\n");
-                    System.out.print("Input: " + Arrays.toString(trainingElement.getInput()));
-                    System.out.print("Simulace: " + Arrays.toString(trainingElement.getDesiredOutput()));
-                    System.out.println(" Output: " + Arrays.toString(networkOutput));
-                }
-
-
-
+                csvWriter.append("\n");
+                System.out.print("Input: " + Arrays.toString(trainingElement.getInput()));
+                System.out.print("Simulace: " + Arrays.toString(trainingElement.getDesiredOutput()));
+                System.out.println(" Output: " + Arrays.toString(networkOutput));
+            }
 
 
             csvWriter.flush();
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
 
     }
 
-    private void uloz(Double[] vstup,Double [] vystup)
-    {
 
-    }
 }
